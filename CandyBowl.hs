@@ -1,26 +1,6 @@
-{- Carrie's Candy Bowl, Code Skeleton (List Representation)
-   H. Conrad Cunningham
-
-1234567890123456789012345678901234567890123456789012345678901234567890
-
-2018-10-21: Expanded from similar previous work
-
-Notes:
-
--   In some cases, you may need to restrict the polymorphism to
-    implement a function. Be careful not to restrict functions
-    unnecessarily.
-
--   You may find Prelude functions such as concatMap, elem, filter,
-    length, map, null, replicate, and span useful.
-
--   You may also find functions in the Data.List library
-    useful -- e.g. sort, group, and (\\).
-
--}
 
 module CandyBowl_list
-  ( CandyBowl(..), newBowl, isEmpty, putIn, has, size, howMany, eqBowl, takeOut,
+  ( CandyBowl(..), newBowl, isEmpty, putIn, has, size, howMany, eqBowl, takeOut, combine
   )
 where
 
@@ -29,8 +9,6 @@ import Data.List ( sort, group, (\\) )
 
 -- Candy bowl data representation
 data CandyBowl a = Bowl [a] deriving Show
-
--- Remove comments from implemented type signatures below
 
 -- Exercise #1
 newBowl :: CandyBowl a
@@ -86,12 +64,25 @@ eqBowl (Bowl q@(a:b)) (Bowl c) =
 
 -- Exercise #9
 -- inventory :: Ord a => CandyBowl a -> [(a,Int)]
+-- inventory (Bowl candy) =
+
+-- https://stackoverflow.com/questions/19082953/how-to-sort-a-list-in-haskell-in-command-line-ghci
+-- quicksort :: Ord a => [a] -> [a]
+-- quicksort [] = []
+-- quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
+--   where
+--     lesser  = filter (< p) xs
+--     greater = filter (>= p) xs
 
 -- Exercise #10
 -- restock :: [(a,Int)] -> CandyBowl a
 
 -- Exercise #11
--- combine :: CandyBowl a -> CandyBowl a -> CandyBowl a
+-- https://stackoverflow.com/questions/3938438/merging-two-lists-in-haskell
+combine :: CandyBowl a -> CandyBowl a -> CandyBowl a
+combine (Bowl xs) (Bowl []) = xs
+combine (Bowl []) (Bowl ys) = ys
+combine (Bowl q@(x:xs)) (Bowl p@(y:ys)) = x : y : combine xs ys
 
 -- Exercise #12
 -- difference :: Eq a => CandyBowl a -> CandyBowl a -> CandyBowl a
