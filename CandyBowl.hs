@@ -1,6 +1,6 @@
 
 module CandyBowl_list
-  ( CandyBowl(..), newBowl, isEmpty, putIn, has, size, howMany, eqBowl, takeOut, combine
+  ( CandyBowl(..), newBowl, isEmpty, putIn, has, size, howMany, eqBowl, takeOut
   )
 where
 
@@ -63,8 +63,17 @@ eqBowl (Bowl q@(a:b)) (Bowl c) =
     Just (Bowl d) -> eqBowl (Bowl b) (Bowl d)
 
 -- Exercise #9
--- inventory :: Ord a => CandyBowl a -> [(a,Int)]
--- inventory (Bowl candy) =
+inventory :: Ord a => CandyBowl a -> [(a,Int)]
+inventory (Bowl candy) = low
+  where stuff = (group . sort) candy
+    thing = thing length stuff
+    low = map [(tempFunct . concat) stuff] thing
+
+tempFunct :: Ord a => [a] -> [a]
+tempFunct (x:y:xs)
+  | x == y = tempFunct (y:xs)
+  | x /= y : x : tempFunct (y:xs)
+tempFunct xs : xs
 
 -- https://stackoverflow.com/questions/19082953/how-to-sort-a-list-in-haskell-in-command-line-ghci
 -- quicksort :: Ord a => [a] -> [a]
@@ -79,10 +88,10 @@ eqBowl (Bowl q@(a:b)) (Bowl c) =
 
 -- Exercise #11
 -- https://stackoverflow.com/questions/3938438/merging-two-lists-in-haskell
-combine :: CandyBowl a -> CandyBowl a -> CandyBowl a
-combine (Bowl xs) (Bowl []) = xs
-combine (Bowl []) (Bowl ys) = ys
-combine (Bowl q@(x:xs)) (Bowl p@(y:ys)) = x : y : combine xs ys
+-- combine :: CandyBowl a -> CandyBowl a -> CandyBowl a
+-- combine (Bowl xs) (Bowl []) = xs
+-- combine (Bowl []) (Bowl ys) = ys
+-- combine (Bowl q@(x:xs)) (Bowl p@(y:ys)) = x : y : combine xs ys
 
 -- Exercise #12
 -- difference :: Eq a => CandyBowl a -> CandyBowl a -> CandyBowl a
